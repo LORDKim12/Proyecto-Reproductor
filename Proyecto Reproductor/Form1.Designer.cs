@@ -28,14 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             panel1 = new Panel();
             listBox1 = new ListBox();
             panel2 = new Panel();
-            axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -56,21 +52,10 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(axWindowsMediaPlayer1);
             panel2.Location = new Point(268, 12);
             panel2.Name = "panel2";
             panel2.Size = new Size(520, 426);
             panel2.TabIndex = 1;
-            // 
-            // axWindowsMediaPlayer1
-            // 
-            axWindowsMediaPlayer1.Enabled = true;
-            axWindowsMediaPlayer1.Location = new Point(17, 13);
-            axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            axWindowsMediaPlayer1.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer1.OcxState");
-            axWindowsMediaPlayer1.Size = new Size(486, 396);
-            axWindowsMediaPlayer1.TabIndex = 0;
-            axWindowsMediaPlayer1.Enter += axWindowsMediaPlayer1_Enter;
             // 
             // Form1
             // 
@@ -82,8 +67,6 @@
             Name = "Form1";
             Text = "Form1";
             panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).EndInit();
             ResumeLayout(false);
         }
 
@@ -92,6 +75,5 @@
         private Panel panel1;
         private Panel panel2;
         private ListBox listBox1;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }

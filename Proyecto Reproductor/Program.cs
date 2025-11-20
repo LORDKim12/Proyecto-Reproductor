@@ -1,3 +1,5 @@
+using LibVLCSharp.Shared;
+
 namespace Proyecto_Reproductor
 {
     internal static class Program
@@ -12,6 +14,7 @@ namespace Proyecto_Reproductor
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
+            Core.Initialize();
         }
     }
 }
