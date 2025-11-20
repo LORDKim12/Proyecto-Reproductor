@@ -14,7 +14,6 @@ namespace Proyecto_Reproductor.Clases
         private VideoView _videoView;
         private PictureBox _pb;
 
-        // Recibimos todo lo necesario en el constructor
         public Musica(string ruta, LibVLC libVLC, MediaPlayer mp, VideoView videoView, PictureBox pb)
         {
             _ruta = ruta;
@@ -26,18 +25,20 @@ namespace Proyecto_Reproductor.Clases
 
         public void Play()
         {
-            // 1. Preparar interfaz
-            _pb.Visible = false;       // Ocultar foto
-            _videoView.Visible = true; // Mostrar video
+            // 1. Configurar Interfaz
+            _pb.Visible = false;
+            _videoView.Visible = true; // VLC necesita el view activo a veces para procesar bien
 
-            // 2. Cargar y reproducir con VLC
-            var media = new Media(_libVLC, _ruta);
-            _mp.Play(media);
+            // 2. Reproducir
+            using (var media = new Media(_libVLC, _ruta))
+            {
+                _mp.Play(media);
+            }
         }
 
-        public void Pausa() { _mp.Pause(); }
-        public void Stop() { _mp.Stop(); } 
-        public void Siguiente() { /* Lógica futura */ }
-        public void Anterior() { /* Lógica futura */ }
+        public void Pausa() => _mp.Pause();
+        public void Stop() => _mp.Stop();
+        public void Siguiente() { }
+        public void Anterior() { }
     }
 }

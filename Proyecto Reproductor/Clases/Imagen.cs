@@ -23,19 +23,24 @@ namespace Proyecto_Reproductor.Clases
 
         public void Play()
         {
-            // 1. Detener VLC si algo está sonando
+            // 1. Detener VLC
             if (_mp.IsPlaying) _mp.Stop();
 
             // 2. Cambiar interfaz
             _videoView.Visible = false;
             _pb.Visible = true;
+            _pb.BringToFront(); // <--- AGREGA ESTA LÍNEA: Obliga a la foto a ponerse encima de todo
 
             // 3. Cargar imagen
             _pb.ImageLocation = _ruta;
         }
 
         public void Pausa() { }
-        public void Stop() { _pb.Image = null; }
+        public void Stop()
+        {
+            _pb.Image = null;
+            _pb.Visible = false;
+        }
         public void Siguiente() { }
         public void Anterior() { }
     }
