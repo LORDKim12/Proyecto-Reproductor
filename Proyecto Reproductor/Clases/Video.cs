@@ -14,11 +14,11 @@ namespace Proyecto_Reproductor.Clases
         private VideoView _videoView;
         private PictureBox _pb;
 
-        // Variables para guardar las "instrucciones" que nos da el Form
+        // Variables para guardar las instrucciones del Formulario
         private Action _accionSiguiente;
         private Action _accionAnterior;
 
-        // Agregamos 'Action siguiente' y 'Action anterior' al final del constructor
+        // Constructor completo (7 argumentos)
         public Video(string ruta, LibVLC libVLC, MediaPlayer mp, VideoView videoView, PictureBox pb, Action siguiente, Action anterior)
         {
             _ruta = ruta;
@@ -26,14 +26,17 @@ namespace Proyecto_Reproductor.Clases
             _mp = mp;
             _videoView = videoView;
             _pb = pb;
-            _accionSiguiente = siguiente; // Guardamos la instrucción
-            _accionAnterior = anterior;   // Guardamos la instrucción
+            _accionSiguiente = siguiente;
+            _accionAnterior = anterior;
         }
 
         public void Play()
         {
+            // Configuración visual para video
             _pb.Visible = false;
             _videoView.Visible = true;
+
+            // Cargar y reproducir
             using (var media = new Media(_libVLC, _ruta))
             {
                 _mp.Play(media);
@@ -43,7 +46,7 @@ namespace Proyecto_Reproductor.Clases
         public void Pausa() => _mp.Pause();
         public void Stop() => _mp.Stop();
 
-        // AHORA SÍ FUNCIONAN: Ejecutan la instrucción que les dio el Form
+        // Implementación real de los métodos de la interfaz usando los Actions
         public void Siguiente()
         {
             if (_accionSiguiente != null) _accionSiguiente();

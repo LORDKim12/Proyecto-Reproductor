@@ -13,23 +13,24 @@ namespace Proyecto_Reproductor.Clases
         private MediaPlayer _mp;
         private VideoView _videoView;
         private PictureBox _pb;
+        private Action _accionSiguiente;
+        private Action _accionAnterior;
 
-        public Musica(string ruta, LibVLC libVLC, MediaPlayer mp, VideoView videoView, PictureBox pb)
+        public Musica(string ruta, LibVLC libVLC, MediaPlayer mp, VideoView videoView, PictureBox pb, Action siguiente, Action anterior)
         {
             _ruta = ruta;
             _libVLC = libVLC;
             _mp = mp;
             _videoView = videoView;
             _pb = pb;
+            _accionSiguiente = siguiente;
+            _accionAnterior = anterior;
         }
 
         public void Play()
         {
-            // 1. Configurar Interfaz
             _pb.Visible = false;
-            _videoView.Visible = true; // VLC necesita el view activo a veces para procesar bien
-
-            // 2. Reproducir
+            _videoView.Visible = true;
             using (var media = new Media(_libVLC, _ruta))
             {
                 _mp.Play(media);
@@ -38,7 +39,15 @@ namespace Proyecto_Reproductor.Clases
 
         public void Pausa() => _mp.Pause();
         public void Stop() => _mp.Stop();
-        public void Siguiente() { }
-        public void Anterior() { }
+
+        public void Siguiente()
+        {
+            if (_accionSiguiente != null) _accionSiguiente();
+        }
+
+        public void Anterior()
+        {
+            if (_accionAnterior != null) _accionAnterior();
+        }
     }
 }

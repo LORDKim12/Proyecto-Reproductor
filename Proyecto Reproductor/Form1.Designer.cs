@@ -121,25 +121,25 @@
             btnCargar.Name = "btnCargar";
             btnCargar.Size = new Size(94, 29);
             btnCargar.TabIndex = 2;
-            btnCargar.Text = "button1";
+            btnCargar.Text = "Cargar ";
             btnCargar.UseVisualStyleBackColor = true;
             btnCargar.Click += btnCargar_Click;
             // 
             // videoView1
             // 
             videoView1.BackColor = Color.Black;
-            videoView1.Location = new Point(68, 20);
+            videoView1.Location = new Point(16, 22);
             videoView1.MediaPlayer = null;
             videoView1.Name = "videoView1";
-            videoView1.Size = new Size(401, 268);
+            videoView1.Size = new Size(489, 279);
             videoView1.TabIndex = 1;
             videoView1.Text = "videoView1";
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(128, 71);
+            pictureBox1.Location = new Point(16, 22);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(249, 168);
+            pictureBox1.Size = new Size(489, 279);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;

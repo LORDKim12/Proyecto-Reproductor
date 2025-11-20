@@ -12,26 +12,25 @@ namespace Proyecto_Reproductor.Clases
         private MediaPlayer _mp;
         private VideoView _videoView;
         private PictureBox _pb;
+        private Action _accionSiguiente;
+        private Action _accionAnterior;
 
-        public Imagen(string ruta, MediaPlayer mp, VideoView videoView, PictureBox pb)
+        public Imagen(string ruta, MediaPlayer mp, VideoView videoView, PictureBox pb, Action siguiente, Action anterior)
         {
             _ruta = ruta;
             _mp = mp;
             _videoView = videoView;
             _pb = pb;
+            _accionSiguiente = siguiente;
+            _accionAnterior = anterior;
         }
 
         public void Play()
         {
-            // 1. Detener VLC
             if (_mp.IsPlaying) _mp.Stop();
-
-            // 2. Cambiar interfaz
             _videoView.Visible = false;
             _pb.Visible = true;
-            _pb.BringToFront(); // <--- AGREGA ESTA LÍNEA: Obliga a la foto a ponerse encima de todo
-
-            // 3. Cargar imagen
+            _pb.BringToFront();
             _pb.ImageLocation = _ruta;
         }
 
@@ -41,7 +40,15 @@ namespace Proyecto_Reproductor.Clases
             _pb.Image = null;
             _pb.Visible = false;
         }
-        public void Siguiente() { }
-        public void Anterior() { }
+
+        public void Siguiente()
+        {
+            if (_accionSiguiente != null) _accionSiguiente();
+        }
+
+        public void Anterior()
+        {
+            if (_accionAnterior != null) _accionAnterior();
+        }
     }
 }
