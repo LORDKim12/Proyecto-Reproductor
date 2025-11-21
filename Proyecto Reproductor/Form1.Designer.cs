@@ -31,6 +31,7 @@
             panel1 = new Panel();
             listBox1 = new ListBox();
             panel2 = new Panel();
+            trackBarVolumen = new TrackBar();
             btnSiguiente = new Button();
             button3 = new Button();
             button2 = new Button();
@@ -40,6 +41,7 @@
             pictureBox1 = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarVolumen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)videoView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -63,6 +65,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(trackBarVolumen);
             panel2.Controls.Add(btnSiguiente);
             panel2.Controls.Add(button3);
             panel2.Controls.Add(button2);
@@ -75,9 +78,20 @@
             panel2.Size = new Size(520, 426);
             panel2.TabIndex = 1;
             // 
+            // trackBarVolumen
+            // 
+            trackBarVolumen.Location = new Point(387, 367);
+            trackBarVolumen.Maximum = 100;
+            trackBarVolumen.Name = "trackBarVolumen";
+            trackBarVolumen.Size = new Size(130, 56);
+            trackBarVolumen.TabIndex = 7;
+            trackBarVolumen.TickFrequency = 10;
+            trackBarVolumen.Value = 50;
+            trackBarVolumen.Scroll += trackBarVolumen_Scroll;
+            // 
             // btnSiguiente
             // 
-            btnSiguiente.Location = new Point(369, 364);
+            btnSiguiente.Location = new Point(394, 307);
             btnSiguiente.Name = "btnSiguiente";
             btnSiguiente.Size = new Size(79, 29);
             btnSiguiente.TabIndex = 6;
@@ -87,7 +101,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(284, 364);
+            button3.Location = new Point(309, 307);
             button3.Name = "button3";
             button3.Size = new Size(79, 29);
             button3.TabIndex = 5;
@@ -97,7 +111,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(178, 364);
+            button2.Location = new Point(203, 307);
             button2.Name = "button2";
             button2.Size = new Size(100, 29);
             button2.TabIndex = 4;
@@ -107,7 +121,7 @@
             // 
             // btnAnterior
             // 
-            btnAnterior.Location = new Point(93, 364);
+            btnAnterior.Location = new Point(118, 307);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Size = new Size(79, 29);
             btnAnterior.TabIndex = 3;
@@ -155,6 +169,8 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarVolumen).EndInit();
             ((System.ComponentModel.ISupportInitialize)videoView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
@@ -173,5 +189,6 @@
         private Button button3;
         private Button button2;
         private Button btnAnterior;
+        private TrackBar trackBarVolumen;
     }
 }

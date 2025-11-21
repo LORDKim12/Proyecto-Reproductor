@@ -6,18 +6,20 @@ using System.Text;
 
 namespace Proyecto_Reproductor.Clases
 {
-    internal class Imagen : Reproductor
+    internal class Video : Reproductor
     {
         private string _ruta;
+        private LibVLC _libVLC;
         private MediaPlayer _mp;
         private VideoView _videoView;
         private PictureBox _pb;
         private Action _accionSiguiente;
         private Action _accionAnterior;
 
-        public Imagen(string ruta, MediaPlayer mp, VideoView videoView, PictureBox pb, Action siguiente, Action anterior)
+        public Video(string ruta, LibVLC libVLC, MediaPlayer mp, VideoView videoView, PictureBox pb, Action siguiente, Action anterior)
         {
             _ruta = ruta;
+            _libVLC = libVLC;
             _mp = mp;
             _videoView = videoView;
             _pb = pb;
@@ -27,28 +29,23 @@ namespace Proyecto_Reproductor.Clases
 
         public void Play()
         {
-            if (_mp.IsPlaying) _mp.Stop();
-            _videoView.Visible = false;
-            _pb.Visible = true;
-            _pb.BringToFront();
-            _pb.ImageLocation = _ruta;
-        }
-
-        public void Pausa() { }
-        public void Stop()
-        {
-            _pb.Image = null;
             _pb.Visible = false;
+            _videoView.Visible = true;
+            using (var media = new Media(_libVLC, _ruta))
+            {
+                _mp.Play(media);
+            }
         }
 
-        public void Siguiente()
-        {
-            if (_accionSiguiente != null) _accionSiguiente();
+        public void Pausa() => _mp.Pause();
+        public void Stop() => _mp.Stop();
+        public void Siguiente() 
+        { 
+            if (_accionSiguiente != null) _accionSiguiente(); 
         }
-
-        public void Anterior()
-        {
-            if (_accionAnterior != null) _accionAnterior();
+        public void Anterior() 
+        { 
+            if (_accionAnterior != null) _accionAnterior(); 
         }
     }
 }

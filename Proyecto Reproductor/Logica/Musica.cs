@@ -39,15 +39,13 @@ namespace Proyecto_Reproductor.Clases
 
         public void Pausa() => _mp.Pause();
         public void Stop() => _mp.Stop();
-
-        public void Siguiente()
-        {
-            if (_accionSiguiente != null) _accionSiguiente();
+        public void Siguiente() 
+        { 
+            if (_accionSiguiente != null) _accionSiguiente(); 
         }
-
-        public void Anterior()
-        {
-            if (_accionAnterior != null) _accionAnterior();
+        public void Anterior() 
+        { 
+            if (_accionAnterior != null) _accionAnterior(); 
         }
     }
 }
