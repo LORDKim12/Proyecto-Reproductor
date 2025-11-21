@@ -4,6 +4,7 @@ using Proyecto_Reproductor.Clases;
 using Proyecto_Reproductor.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,13 +16,12 @@ namespace Proyecto_Reproductor
         private MediaPlayer? _mediaPlayer;
         private Reproductor? _reproductorActual;
 
+        private bool _isDragging = false;
 
         public Form1()
         {
             InitializeComponent();
             ConfigurarVLC();
-
-
 
             btnCargar.BackgroundImageLayout = ImageLayout.Stretch;
             btnCargar.FlatStyle = FlatStyle.Flat;
@@ -54,17 +54,26 @@ namespace Proyecto_Reproductor
             btnSiguiente.Padding = new Padding(0);
 
             EstilizarTrackBar();
-
         }
+
         private void EstilizarTrackBar()
         {
-            trackBarVolumen.BackColor = Color.FromArgb(230, 240, 255); 
-            trackBarVolumen.TickStyle = TickStyle.None;                
-            trackBarVolumen.Height = 20;                              
+            Color colorFondo = Color.FromArgb(220, 240, 255);
+            trackBarVolumen.AutoSize = false;
+            trackBarVolumen.Height = 30; 
+            trackBarVolumen.TickStyle = TickStyle.None; 
+            trackBarVolumen.BackColor = colorFondo;     
+            trackBarVolumen.Cursor = Cursors.Hand;      
 
-            trackBarVolumen.ForeColor = Color.FromArgb(70, 120, 200);
+            if (trackBarTiempo != null)
+            {
+                trackBarTiempo.AutoSize = false;
+                trackBarTiempo.Height = 30;
+                trackBarTiempo.TickStyle = TickStyle.None;
+                trackBarTiempo.BackColor = colorFondo;
+                trackBarTiempo.Cursor = Cursors.Hand;
+            }
         }
-
 
         private void ConfigurarVLC()
         {
@@ -72,6 +81,59 @@ namespace Proyecto_Reproductor
             _mediaPlayer = new MediaPlayer(_libVLC);
             videoView1.MediaPlayer = _mediaPlayer;
             _mediaPlayer.Volume = trackBarVolumen.Value;
+
+            _mediaPlayer.LengthChanged += MediaPlayer_LengthChanged;
+            _mediaPlayer.TimeChanged += MediaPlayer_TimeChanged;
+        }
+
+        private void MediaPlayer_LengthChanged(object? sender, MediaPlayerLengthChangedEventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                if (trackBarTiempo != null)
+                {
+                    trackBarTiempo.Value = 0;
+                    trackBarTiempo.Maximum = (int)e.Length;
+                }
+            }));
+        }
+
+        private void MediaPlayer_TimeChanged(object? sender, MediaPlayerTimeChangedEventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                if (trackBarTiempo != null && !_isDragging)
+                {
+                    if (e.Time <= trackBarTiempo.Maximum)
+                    {
+                        trackBarTiempo.Value = (int)e.Time;
+                    }
+                }
+            }));
+        }
+
+        private void trackBarTiempo_MouseDown(object sender, MouseEventArgs e)
+        {
+            _isDragging = true;
+        }
+
+        private void trackBarTiempo_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            _isDragging = false;
+
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.Time = trackBarTiempo.Value;
+            }
+        }
+
+        private void trackBarTiempo_Scroll(object sender, EventArgs e)
+        {
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.Time = trackBarTiempo.Value;
+            }
         }
 
         private void btnCargar_Click(object sender, EventArgs e)
@@ -152,11 +214,21 @@ namespace Proyecto_Reproductor
                 };
 
                 if (extension == ".mp3" || extension == ".wav")
+                {
                     _reproductorActual = new Musica(ruta, _libVLC!, _mediaPlayer!, videoView1, pictureBox1, irSiguiente, irAnterior);
+                    trackBarTiempo.Enabled = true;
+                }
                 else if (extension == ".mp4" || extension == ".mkv" || extension == ".avi")
+                {
                     _reproductorActual = new Video(ruta, _libVLC!, _mediaPlayer!, videoView1, pictureBox1, irSiguiente, irAnterior);
+                    trackBarTiempo.Enabled = true;
+                }
                 else if (extension == ".jpg" || extension == ".png" || extension == ".jpeg")
+                {
                     _reproductorActual = new Imagen(ruta, _mediaPlayer!, videoView1, pictureBox1, irSiguiente, irAnterior);
+                    trackBarTiempo.Value = 0;
+                    trackBarTiempo.Enabled = false;
+                }
 
                 if (_reproductorActual != null) _reproductorActual.Play();
             }
@@ -166,34 +238,40 @@ namespace Proyecto_Reproductor
         {
             if (_reproductorActual != null) _reproductorActual.Siguiente();
         }
+
         private void btnAnterior_Click(object sender, EventArgs e)
         {
             if (_reproductorActual != null) _reproductorActual.Anterior();
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            if (_reproductorActual != null) _reproductorActual.Stop();
+            if (_reproductorActual != null)
+            {
+                _reproductorActual.Stop();
+                trackBarTiempo.Value = 0;
+            }
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (_reproductorActual != null) _reproductorActual.Pausa();
         }
+
         private void trackBarVolumen_Scroll(object sender, EventArgs e)
         {
             if (_mediaPlayer != null) _mediaPlayer.Volume = trackBarVolumen.Value;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e) 
         {
 
         }
-
-        private void videoView1_Click(object sender, EventArgs e)
+        private void videoView1_Click(object sender, EventArgs e) 
         {
 
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e) 
         {
 
         }
