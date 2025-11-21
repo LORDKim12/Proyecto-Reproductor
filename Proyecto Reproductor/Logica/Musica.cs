@@ -2,7 +2,10 @@
 using LibVLCSharp.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
+using Proyecto_Reproductor.Properties; // Para acceder a tus Recursos
 
 namespace Proyecto_Reproductor.Clases
 {
@@ -29,8 +32,20 @@ namespace Proyecto_Reproductor.Clases
 
         public void Play()
         {
-            _pb.Visible = false;
-            _videoView.Visible = true;
+            // 1. Ocultamos el reproductor de video y mostramos el PictureBox
+            _videoView.Visible = false;
+            _pb.Visible = true;
+            _pb.BringToFront();
+
+            // 2. Asignamos el GIF desde los recursos
+            // IMPORTANTE: Cambia 'AnimacionMusica' por el nombre real de tu archivo en Resources
+            _pb.Image = Resources.AnimacionMusica;
+
+            // 'StretchImage' hará que el GIF ocupe todo el espacio, aunque podría deformarse un poco.
+            // Si prefieres que mantenga su forma, usa 'Zoom' (pero podrían quedar bordes vacíos).
+            _pb.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            // 3. Reproducimos el audio
             using (var media = new Media(_libVLC, _ruta))
             {
                 _mp.Play(media);
@@ -38,14 +53,23 @@ namespace Proyecto_Reproductor.Clases
         }
 
         public void Pausa() => _mp.Pause();
-        public void Stop() => _mp.Stop();
-        public void Siguiente() 
-        { 
-            if (_accionSiguiente != null) _accionSiguiente(); 
+
+        public void Stop()
+        {
+            _mp.Stop();
+
+            // Es buena práctica limpiar la imagen para liberar memoria y detener la animación
+            _pb.Image = null;
+            _pb.Visible = false;
         }
-        public void Anterior() 
-        { 
-            if (_accionAnterior != null) _accionAnterior(); 
+
+        public void Siguiente()
+        {
+            if (_accionSiguiente != null) _accionSiguiente();
+        }
+        public void Anterior()
+        {
+            if (_accionAnterior != null) _accionAnterior();
         }
     }
 }

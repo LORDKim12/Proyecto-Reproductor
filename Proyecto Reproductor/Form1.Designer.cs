@@ -115,7 +115,7 @@
             // videoView1
             // 
             videoView1.BackColor = Color.Black;
-            videoView1.Location = new Point(324, 155);
+            videoView1.Location = new Point(325, 155);
             videoView1.Margin = new Padding(3, 2, 3, 2);
             videoView1.MediaPlayer = null;
             videoView1.Name = "videoView1";
