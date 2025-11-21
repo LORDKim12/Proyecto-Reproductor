@@ -15,11 +15,56 @@ namespace Proyecto_Reproductor
         private MediaPlayer? _mediaPlayer;
         private Reproductor? _reproductorActual;
 
+
         public Form1()
         {
             InitializeComponent();
             ConfigurarVLC();
+
+
+
+            btnCargar.BackgroundImageLayout = ImageLayout.Stretch;
+            btnCargar.FlatStyle = FlatStyle.Flat;
+            btnCargar.FlatAppearance.BorderSize = 0;
+            btnCargar.UseVisualStyleBackColor = false;
+            btnCargar.Padding = new Padding(0);
+
+            btnAnterior.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAnterior.FlatStyle = FlatStyle.Flat;
+            btnAnterior.FlatAppearance.BorderSize = 0;
+            btnAnterior.UseVisualStyleBackColor = false;
+            btnAnterior.Padding = new Padding(0);
+
+            button2.BackgroundImageLayout = ImageLayout.Stretch;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.UseVisualStyleBackColor = false;
+            button2.Padding = new Padding(0);
+
+            button3.BackgroundImageLayout = ImageLayout.Stretch;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.UseVisualStyleBackColor = false;
+            button3.Padding = new Padding(0);
+
+            btnSiguiente.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSiguiente.FlatStyle = FlatStyle.Flat;
+            btnSiguiente.FlatAppearance.BorderSize = 0;
+            btnSiguiente.UseVisualStyleBackColor = false;
+            btnSiguiente.Padding = new Padding(0);
+
+            EstilizarTrackBar();
+
         }
+        private void EstilizarTrackBar()
+        {
+            trackBarVolumen.BackColor = Color.FromArgb(230, 240, 255); 
+            trackBarVolumen.TickStyle = TickStyle.None;                
+            trackBarVolumen.Height = 20;                              
+
+            trackBarVolumen.ForeColor = Color.FromArgb(70, 120, 200);
+        }
+
 
         private void ConfigurarVLC()
         {
@@ -117,25 +162,40 @@ namespace Proyecto_Reproductor
             }
         }
 
-        private void btnSiguiente_Click(object sender, EventArgs e) 
-        { 
-            if (_reproductorActual != null) _reproductorActual.Siguiente(); 
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (_reproductorActual != null) _reproductorActual.Siguiente();
         }
-        private void btnAnterior_Click(object sender, EventArgs e) 
-        { 
-            if (_reproductorActual != null) _reproductorActual.Anterior(); 
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (_reproductorActual != null) _reproductorActual.Anterior();
         }
-        private void button3_Click(object sender, EventArgs e) 
-        { 
-            if (_reproductorActual != null) _reproductorActual.Stop(); 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (_reproductorActual != null) _reproductorActual.Stop();
         }
-        private void button2_Click(object sender, EventArgs e) 
-        { 
-            if (_reproductorActual != null) _reproductorActual.Pausa(); 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (_reproductorActual != null) _reproductorActual.Pausa();
         }
-        private void trackBarVolumen_Scroll(object sender, EventArgs e) 
-        { 
-            if (_mediaPlayer != null) _mediaPlayer.Volume = trackBarVolumen.Value; 
+        private void trackBarVolumen_Scroll(object sender, EventArgs e)
+        {
+            if (_mediaPlayer != null) _mediaPlayer.Volume = trackBarVolumen.Value;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void videoView1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
